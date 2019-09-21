@@ -1,0 +1,533 @@
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
+
+<html>
+<head lang="en">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>北大青鸟晨练管理系统</title>
+<link type="text/css" rel="stylesheet" href="css/style.css">
+<link type="text/css" rel="stylesheet" href="css/public.css">
+<link type="text/css" rel="stylesheet" href="css/WdatePicker.css">
+<script></script>
+
+<style>
+#classtalk{
+    background: url("images/yh.png") 0  center no-repeat;
+}
+#classtalk1{
+    background: url("images/yh.png") 0  center no-repeat;
+}
+
+#interview{
+    background: url("images/zd.png") 0  center no-repeat;
+}
+#look a{
+color:black
+}
+#look1 a{
+color:black
+}
+#insert a{
+color:black
+}
+#insert1 a{
+color:black
+}	
+</style>
+</head>
+<body style="position: static;">
+	<c:if test="${ p eq null }">
+		<script>
+			location.href = "clServlet?op=Teacherfen&index=1";
+		</script>
+	</c:if>
+
+	<header class="publicHeader">
+		<h1>北大青鸟晨练管理系统</h1>
+		<div class="publicHeaderR">
+			<p>
+				<span>下午好！</span><span style="color: #fff21b"> 系统管理员</span> , 欢迎你！
+			</p>
+			<a href="#">退出</a>
+		</div>
+		<style>
+#fen {
+	font-size: 15px;
+	font-weight: normal;
+}
+</style>
+	</header>
+	<section class="publicTime">
+		<span id="time">2018年07月25日&nbsp;14:37:22&nbsp;星期三</span> <a href="#">温馨提示：为了能正常浏览，请使用高版本浏览器！（IE10+）</a>
+	</section>
+	<!--主体内容-->
+	<section class="publicMian ">
+		<div class="left">
+			<h2 class="leftH2">
+				<span class="span1"></span>功能列表 <span></span>
+			</h2>
+			<nav>
+				<ul class="list">
+				  <li><a href="Classfen.jsp">班级管理</a></li>
+				  <li><a href="teaFen.jsp">教师管理</a></li>
+				  <li><a href="Stufen.jsp">学员管理</a></li>
+				   <li><a href="memFen.jsp">晨练部管理</a></li>
+				  <li id="classtalk"><a href="#">演讲课管理</a>  </li>
+					<c:if test="${a.type==0}">
+					
+					<li class="sp" id="insert"><a href="#">添加</a></li>
+					</c:if>
+					<c:if test="${a.type==1}">			
+					<li class="sp" id="look" ><a href="#">查看</a></li>
+					
+					</c:if>
+				    <li id="classtalk1"><a href="#">演讲课排课</a></li>
+					<li class="sp1" id="look1"><a href="#">查看</a></li>
+					<li class="sp1" id="insert1"><a href="#">添加</a></li>
+
+				  <li id="interview"><a href="#">模拟面试管理</a></li>
+				  <c:if test="${a.type==0}">
+				  <li id="insert" class="inter"   onclick="insert(${ memberAll.id})"><a href="#">添加</a> </li>				  
+				  </c:if>
+				  
+				    <c:if test="${ a.type==1 }">
+                 <li id="look" class="inter"  onclick="look(${ teacherAll.id })"><a href="#">查看</a></li>
+				  </c:if>
+				    
+					 
+				 </ul>
+			</nav>
+		</div>
+		<input type="hidden" id="path" name="path" value=""> <input
+			type="hidden" id="referer" name="referer" value="">
+		<div class="right" style="margin-top: 13px">
+			<div class="location">
+				<strong>你现在所在的位置是:</strong> <span>教师管理页面</span>
+			</div>
+			<p style="font-size: 15px;color: blue;margin: 13px">北 大 青 鸟 教 师 信
+				息</p>
+			<!--用户-->
+			<div class="search">
+				<form method="post" action="">
+					<p>
+						<input name="method" value="query" class="input-text"
+							type="hidden"> <span>教师姓名：</span> <input name="name"
+							class="input-text" type="text" value="" style="width:110px">
+
+						<input type="hidden" name="pageIndex" value="1"> <input
+							value="查 询" type="submit" id="searchbutton"> <a href="#"
+							onclick="add()" style="width:40px;margin-left: 10px">添加</a> <a
+							href="#" onclick="update()" style="width:40px;margin-left: 10px">修改</a>
+					</p>
+				</form>
+			</div>
+			<table class="providerTable" cellpadding="0" cellspacing="0">
+				<tbody>
+					<tr class="firstTr" style="font-size: 12px; background-color: rgb(170,209,242)">
+						<th width="8%" style="font-size: 12px;font-weight: normal;">教师姓名</th>
+						<th width="5%" style="font-size: 12px;font-weight: normal;">账号</th>
+						<th width="5%" style="font-size: 12px;font-weight: normal;">密码</th>
+						<th width="8%" style="font-size: 12px;font-weight: normal;">电话</th>
+						<th width="20%" style="font-size: 12px;font-weight: normal;">
+							介绍</th>
+						<th width="10%" style="font-size: 12px;font-weight: normal;">操作</th>
+					</tr>
+					<c:forEach items="${p.list}" var="f">
+						<c:if test="${ f.dis eq '1' }">
+							<tr style="background-color: yellow">
+								<th width="2%" id="teaId" style="display: none">${f.dis }</th>
+								<th width="2%" id="teaId" style="display: none">${f.id }</th>
+								<th width="2%" style="font-size: 12px;font-weight: normal;"
+									id="name">${f.name }</th>
+								<th width="1%" style="font-size: 12px;font-weight: normal;"
+									id="account" class="account">${f.account }</th>
+								<th width="1%" style="font-size: 12px;font-weight: normal;"
+									id="pwd">${f.pwd }</th>
+								<th width="1%" style="font-size: 12px;font-weight: normal;"
+									id="phone">${f.phone }</th>
+								<th width="20%" style="font-size: 12px;font-weight: normal;"
+									id="motto">${f.motto}</th>
+								<th width="10%"><a href="#" onclick="Teadel(${ f.id},this)"
+									style="font-size: 12px;font-weight: normal;">删除</a> <a href="#"
+									onclick="toUpdate(${f.id },this)"
+									style="font-size: 12px;font-weight: normal;">修改</a></th>
+							</tr>
+
+						</c:if>
+
+
+						<c:if test="${ f.dis ne '1' }">
+							<tr>
+								<th width="2%" id="teaId" style="display: none">${f.dis }</th>
+								<th width="2%" id="teaId" style="display: none">${f.id }</th>
+								<th width="2%" style="font-size: 12px;font-weight: normal;"
+									id="name">${f.name }</th>
+								<th width="1%" style="font-size: 12px;font-weight: normal;"
+									id="account" class="account">${f.account }</th>
+								<th width="1%" style="font-size: 12px;font-weight: normal;"
+									id="pwd">${f.pwd }</th>
+								<th width="1%" style="font-size: 12px;font-weight: normal;"
+									id="phone">${f.phone }</th>
+								<th width="1%" style="font-size: 12px;font-weight: normal;"
+									id="motto">${f.motto}</th>
+								<th width="10%"><a href="#" onclick="Teadel(${ f.id},this)"
+									style="font-size: 12px;font-weight: normal;width:3px;">删除</a> <a
+									href="#" onclick="toUpdate(${f.id },this)"
+									style="font-size: 12px;font-weight: normal;width:3px;">修改</a></th>
+							</tr>
+
+						</c:if>
+
+
+
+
+					</c:forEach>
+				</tbody>
+			</table>
+
+			<div class="page-bar" style="font-size: 13px;color: red">
+				<ul class="page-num-ul clearfix">
+					<c:if test="${ p.pageIndex!=1 }">
+						<a href="clServlet?op=Teacherfen&index=1"
+							style="font-size:12px ;line-height: 3px;">首页</a>
+					</c:if>
+					<a href="clServlet?op=Teacherfen&index=${p.pageIndex-1 }"
+						style="font-size:12px ;line-height: 3px;">上一页</a>
+					<a href="clServlet?op=Teacherfen&index=${p.pageIndex+1 }"
+						style="font-size:12px ;line-height: 3px;">下一页</a>
+					<c:if test="${ p.pageIndex!=p.pageCount }">
+						<a href="clServlet?op=Teacherfen&index=${p.pageCount }"
+							style="font-size:12px ;line-height: 3px;">尾页</a>
+					</c:if>
+					<span style="font-size:12px ;line-height: 3px;">一共 ${ p.pageCount }页，当前是${ p.pageIndex }</span>
+				</ul>
+				<span class="page-go-form" style="font-size: 14px;color: red">
+				<p style="font-size: 12px;color: red;margin;20px">漂黄为教师离职状态</p>
+				</span>
+				
+			</div>
+		</div>
+
+
+
+
+		<script type="text/javascript" src="js/rollpage.js"></script>
+		<div id="add" style="display: none">
+			<div class="right" style="margin-left: 28px;margin-top: 13px">
+				<div class="location" style="margin-left: 8px;margin-top: 13px">
+					<strong>你现在所在的位置是:</strong> <span>教师添加页面</span>
+				</div>
+				<p style="font-size: 15px;color: blue;margin: 6px">徐 州 中 博 教 师 添
+					加 功 能</p>
+
+				<div class="providerAdd"
+					style="margin-top:23px;padding: 30px;width:285px;margin-left: 8px">
+
+					<form action="" method="post">
+						<p style="font: 12px">请根据信息添加</p>
+
+						<div>
+							教师名称：<input type="text" name="name" id="addname"
+								style="width:200px;padding: 5px"> <font color="red">*</font>
+						</div>
+						<div>
+							登录账号：<input type="text" name="account" class="addaccount"
+								style="width:200px;padding: 5px"> <font color="red">*</font>
+						</div>
+						<div>
+							登录密码： <input type="text" name="pwd" id="pwds"
+								style="width:200px;padding: 5px"> <font color="red">*</font>
+						</div>
+
+						<div>
+							联系电话：<input type="text" name="phone" id="phones"
+								style="width:200px;padding: 5px"> <font color="red">*</font>
+						</div>
+						<div>
+							教师格言： <input type="text" name="motto" id="mottos"
+								style="width:200px;padding: 5px"><font color="red">*</font>
+						</div>
+
+
+						<div>
+							<input type="button" name="add" id="toAdd" value="保存"
+								style="width: 100px;height:40px;margin-left: 100px; ">
+						</div>
+					</form>
+				</div>
+
+			</div>
+		</div>
+
+
+
+		<div id="update">
+			<div class="right" style="margin-left: 28px;margin-top: 13px">
+				<div class="location" style="margin-left: 8px;margin-top: 13px">
+					<strong>你现在所在的位置是:</strong> <span>教师修改页面</span>
+				</div>
+				<p style="font-size: 15px;color: blue;margin: 6px">徐 州 中 博 教 师 添
+					加 功 能</p>
+
+				<div class="providerAdd"
+					style="margin-top:23px;padding: 30px;width:285px;margin-left: 8px">
+
+					<form action="" method="post">
+						<p style="font: 12px">
+							请修改信息 <span style="font-weight: bolder;"> </span> <span
+								id="upSuccess" style="font-size: 16px"></span>
+						</p>
+						<div>
+							<input type="hidden" name="教师id：" id="Uid"
+								style="width:200px;padding: 5px">
+						</div>
+						<div>
+							教师名称：<input type="text" name="name" id="Uname"
+								readonly="readonly" style="width:200px;padding: 5px"> <font
+								color="red">*</font>
+						</div>
+						<div>
+							登录账号：<input type="text" name="account" id=Ucounts
+								readonly="readonly" style="width:200px;padding: 5px"> <font
+								color="red">*</font>
+						</div>
+						<div>
+							登录密码： <input type="text" name="pwd" id=Upwd readonly="readonly"
+								style="width:200px;padding: 5px"> <font color="red">*</font>
+						</div>
+
+						<div>
+							联系电话：<input type="text" name="phone" id="Uphone"
+								style="width:200px;padding: 5px"> <font color="red">*</font>
+						</div>
+
+						<div>
+							教师格言： <input type="text" name="motto" id="Umotto"
+								style="width:200px;padding: 5px"><font color="red">*</font>
+						</div>
+						<div>
+							<p style="font-size: 12px;padding-top: 10px;padding-bottom: 15px">
+								在职状态： &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input
+									type="radio" name="Udis" value="0" id="yes">在职&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								<input type="radio" name="Udis" value="1" id="no">离职
+							</p>
+						</div>
+
+						<table>
+							<tr>
+								<td><input type="button" id="u" value="修   改"
+									style="width: 110px;height:40px;margin-left: 80px; background-color:skyblue ;margin-left: 20px"></td>
+								<td><input type="button" id="reset" value="重   置"
+									style="width: 110px;height:40px;margin-left: 80px; background-color:skyblue ;margin-left: 21px"></td>
+							</tr>
+
+
+							<c:if test="${ not empty update}">
+								${ update }
+								</c:if>
+						</table>
+					</form>
+				</div>
+
+			</div>
+		</div>
+
+		<div id="success"></div>
+
+
+	</section>
+
+	<footer class="footer"> 版权归北大青鸟 </footer>
+	<script type="text/javascript" src="js/time.js"></script>
+	<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+	<script type="text/javascript" src="js/common.js"></script>
+	<script type="text/javascript" src="js/WdatePicker.js"></script>
+	<script type="text/javascript" src="js/userlist.js"></script>
+
+	<div
+		style="position: absolute; z-index: 19700; top: -1970px; left: -1970px;">
+		<iframe style="width: 186px; height: 198px;"
+			src="./超市订单管理系统_files/My97DatePicker.html" frameborder="0" border="0"
+			scrolling="no"></iframe>
+	</div>
+	<div>
+		<object id="ClCache" click="sendMsg" host="" width="0" height="0"></object>
+	</div>
+	<div id="yddWrapper" tag-info="这是有道词典 “Chrome 划词扩展 V3” 插入的节点"
+		draggable="true" style="left: 945px; top: 440px;"></div>
+	<template id="yodaoDictPanel" tag-info="这是有道词典 “Chrome 划词扩展 V3” 插入的节点"></template>
+</body>
+</html>
+
+
+<script src="jquery-1.12.4.js"></script>
+<script type="text/javascript">
+	function lood() {
+		window.location.reload();
+		setTimeout("lood()", 500);
+	}
+	$(function() {
+		$("#reset").click(function() {
+			$("#Uid").val("");
+			$("#Uname").val("");
+			$("#Ucounts").val("");
+			$("#Upwd").val("");
+			$("#Umotto").val("");
+			$("#Uphone").val("");
+
+		});
+
+	});
+
+	function update() {
+		$("#add").css("display", "none");
+		$("#update").css("display", "block");
+
+	}
+
+	function add() {
+		$("#add").css("display", "block");
+		$("#update").css("display", "none");
+
+	}
+
+	function toUpdate(id, a) {
+		var teaId = id;
+		var d = $(a).parent().parent().children().eq(0).html();
+		var name = $(a).parent().parent().children().eq(2).html();
+		var account = $(a).parent().parent().children().eq(3).html();
+		var pwd = $(a).parent().parent().children().eq(4).html();
+		var motto = $(a).parent().parent().children().eq(6).html();
+		var phone = $(a).parent().parent().children().eq(5).html();
+		$("#Uid").val(teaId);
+		$("#Uname").val(name);
+		$("#Ucounts").val(account);
+		$("#Upwd").val(pwd);
+		$("#Umotto").val(motto);
+		$("#Uphone").val(phone);
+		if (d == 0) {
+			$("#yes").prop("checked", true);
+			$("#no").prop("checked", false);
+		}
+		if (d == 1) {
+			$("#yes").prop("checked", false);
+			$("#no").prop("checked", true);
+		}
+
+	}
+
+	function Teadel(id, a) {
+		if (confirm("是否删除？")) {
+
+			$.getJSON("clServlet", "op=teacherdel&id=" + id, function(r) {
+				if (r.result == "1") {
+					$(a).parent().parent().remove();
+					$(".page-go-form").html("删除成功");
+					setTimeout("lood()", 500);
+				} else {
+					$(".page-go-form").html("删除失败");
+
+				}
+			});
+		}
+
+	};
+
+	$(function() {
+		$("#u").click(
+				function() {
+					var id = $("#Uid").val();
+					var name = $("#Uname").val();
+					var motto = $("#Umotto").val();
+					var phone = $("#Uphone").val();
+					var dis = $("input[type='radio']:checked").val();
+					$.getJSON("clServlet", "op=Teacherupdate&id=" + id
+							+ "&name=" + name + "&motto=" + motto + "&phone="
+							+ phone + "&dis=" + dis, function(r) {
+						if (r.re == "1") {
+							$(".page-go-form").html("亲，修改成功");
+							setTimeout("lood()", 500);
+						} else {
+							$(".page-go-form").html("抱歉，修改失败哦");
+						}
+
+					});
+				});
+
+	});
+
+	$(function() {
+		$("#toAdd").click(
+				function() {
+					var account = $(".addaccount").val();
+					var name = $("#addname").val();
+					var pwd = $("#pwds").val();
+					var motto = $("#mottos").val();
+					var phone = $("#phones").val();
+					$.getJSON("clServlet", "op=Teacheradd&name=" + name
+							+ "&motto=" + motto + "&phone=" + phone
+							+ "&account=" + account + "&pwd=" + pwd,
+							function(r) {
+								if (r.re == "1") {
+									$(".page-go-form").html("亲，新增成功");
+									setTimeout("lood()", 600);
+								} else {
+									$(".page-go-form").html("抱歉，新增失败哦");
+								}
+
+							});
+
+				});
+
+	});
+
+	//页面
+	$(function() {
+
+		$(".sp").hide();
+		$("#classtalk").click(function() {
+			$(".sp").toggle();
+		});
+
+		$(".sp1").hide();
+		$("#classtalk1").click(function() {
+			$(".sp1").toggle();
+		});
+
+		$("#look").click(function() {
+			location.href = "lcServlet?op=talktoinsert&va=1&id=1";
+
+		});
+		$("#insert").click(function() {
+			location.href = "lcServlet?op=talktoinsert&va=2";
+
+		});
+
+		$("#look1").click(function() {
+			location.href = "lesson-select.jsp";
+
+		});
+		$("#insert1").click(function() {
+			location.href = "lesson-insert.jsp";
+
+		});
+
+	});
+
+	//
+	$(".inter").hide();
+	$("#interview").click(function() {
+		$(".inter").toggle();
+
+	});
+
+	function insert(mem) {
+		alert(mem);
+		location.href = "iServlets?op=to&index=1&mem=" + mem;
+	}
+
+	function look(id) {
+		location.href = "iServlets?op=selectNow&id=" + id;
+	}
+</script>

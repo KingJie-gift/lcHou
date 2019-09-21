@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+  <display-name>lcHou</display-name>
+  <servlet>
+    <servlet-name>iServlet</servlet-name>
+    <servlet-class>servlet.iServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>clServlet</servlet-name>
+    <servlet-class>servlet.clServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>iServlets</servlet-name>
+    <servlet-class>servlet.iServlets</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>testServlet</servlet-name>
+    <servlet-class>servlet.testServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>lcServlet</servlet-name>
+    <servlet-class>servlet.lcServlet</servlet-class>
+  </servlet>
+
+
+
+
+
+  <servlet-mapping>
+    <servlet-name>iServlet</servlet-name>
+    <url-pattern>/iServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>clServlet</servlet-name>
+    <url-pattern>/clServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>iServlets</servlet-name>
+    <url-pattern>/iServlets</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>testServlet</servlet-name>
+    <url-pattern>/testServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>lcServlet</servlet-name>
+    <url-pattern>/lcServlet</url-pattern>
+  </servlet-mapping>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+</web-app>
